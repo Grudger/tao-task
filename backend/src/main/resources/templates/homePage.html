@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="java">
+<head>
+    <title>Tao Task</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script>
+        function onEdit(e) {
+            $(e.target).parent().parent().find('input').attr('disabled', false);
+            e.hide();
+            console.log($('button#save' + $(e.target).parent().parent().id + '' ));
+        }
+
+        // save action stars here
+        function onSave(e) {
+            $(e.target).parent().parent().find('input').attr('disabled', true);
+            e.onclick = 'onEdit(event)';
+            e.target.className = "edit";
+            e.target.innerHTML = "Edit";
+            console.log('Post action here');
+        }
+
+        function dateFormatter(date) {
+            return new Date(date);
+        }
+    </script>
+</head>
+<body>
+<div id="div-body">
+    <h1 th:text="'Hello, ' + ${name} + '!'"/>
+    <button id="submit" type="submit">Submit</button>
+    <br/>
+    <h2>Students</h2>
+    <div id="div-table">
+        <table>
+            <tr>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Address</th>
+                <th>Gender</th>
+                <th>DoB</th>
+                <th>E-mail</th>
+                <th>Mobile Number</th>
+                <th>Phone Number</th>
+            </tr>
+            <tr th:id="${student.getStudentId()}" th:each="student : ${studentList}">
+                <td th:class="${student.getStudentId()}" th:text="${student.getStudentId()}"></td>
+                <td th:class="${student.getStudentId()}">
+                    <input type="text"
+                           disabled="true"
+                           class="form-field"
+                           th:value="${student.getStudentName()}">
+                </td>
+                <td th:class="${student.getStudentId()}">
+                    <input type="text"
+                           disabled="true"
+                           class="form-field"
+                           th:value="${student.getAddress()}">
+                </td>
+                <td th:class="${student.getStudentId()}">
+                    <input type="text"
+                           disabled="true"
+                           class="form-field"
+                           th:value="${student.getGender()}">
+                </td>
+                <td th:class="${student.getStudentId()}">
+                    <input type="text"
+                           disabled="true"
+                           class="form-field"
+                           th:value="${student.getDob()}">
+                </td>
+                <td th:class="${student.getStudentId()}">
+                    <input type="email"
+                           disabled="true"
+                           class="form-field"
+                           th:value="${student.getEmail()}">
+                </td>
+                <td th:class="${student.getStudentId()}">
+                    <input type="tel"
+                           disabled="true"
+                           th:value="${student.getMobile()}">
+                </td>
+                <td th:class="${student.getStudentId()}">
+                    <input type="tel"
+                           disabled="true"
+                           class="form-field"
+                           th:value="${student.getPhone()}">
+                </td>
+                <td>
+                    <button th:id="edit + ${student.getStudentId()}"
+                            class="edit"
+                            onclick="onEdit(event)"
+                            type="submit">Edit
+                    </button>
+                    <button th:id="save + ${student.getStudentId()}"
+                            class="save"
+                            hidden
+                            onclick="onSave(event)"
+                            type="submit">Save
+                    </button>
+                </td>
+                <td>
+                    <button th:id="delete + ${student.getStudentId()}" type="submit">Delete</button>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
