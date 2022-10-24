@@ -2,8 +2,9 @@ import {useEffect, useState} from "react";
 import {DataGrid, useGridApiRef} from '@mui/x-data-grid';
 import axios from "axios";
 import {BASE_URL} from "../config/Constants";
-import {studentColumns, StudentsMapper, validateEmail} from "../config/DataMapper";
+import {studentColumns, StudentsMapper} from "../config/DataMapper";
 import StudentModal from "./modal/StudentModal";
+import {updateStudent} from "../middleware/DataRequest";
 
 export default function StudentTable(props) {
 
@@ -11,18 +12,19 @@ export default function StudentTable(props) {
 
   const apiRef = useGridApiRef();
 
-  const onEdit = (p) => {
-    console.log('params', p)
-    if (p['field'] === 'email') {
-      return validateEmail(p['value'])
-    }
+  const onEdit = ({field, id}, event) => {
+    const value = event.target.value ? event.target.value : event.target.textContent
+    console.log('updating field ' + field, value)
+    updateStudent({[field]: value}, id)
+
   }
 
+
   useEffect(() => {
-    updateData()
+    fetchData()
   }, [])
 
-  const updateData = () => {
+  const fetchData = () => {
     console.log('updating Data')
     axios.get(BASE_URL + "/listAll").then(r => {
       if (r) {
@@ -34,15 +36,15 @@ export default function StudentTable(props) {
 
   return (
     <div style={{height: 300, width: '100%'}}>
-      <StudentModal open={false} refreshData={updateData}/>
+      <StudentModal open={false} refreshData={fetchData}/>
 
       <DataGrid rows={students}
                 columns={studentColumns}
                 stickyHeader
-                editMode="row"
+                editMode="cell"
                 apiRef={apiRef}
                 disableIgnoreModificationsIfProcessingProps
-                onRowEditStop={(params) => onEdit(params)}
+                onCellEditStop={(p, e) => onEdit(p, e)}
                 experimentalFeatures={{newEditingApi: true}}/>
     </div>
   )
