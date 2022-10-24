@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.invalid {
+  color: #ac0000;
+}
