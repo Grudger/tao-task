@@ -30,6 +30,28 @@ export const validateAge = (age) => {
         .match(/^[0-5][0-9]\Z/i)
 }
 
+export const validateGender = (gender) => {
+    return String(gender)
+      .match(/^[FM]/i)
+}
+
+export const validateAddress = (address) => {
+    return String(address)
+      .match(/./i)
+}
+
+
+export const validationSchema = {
+    studentName: validateName,
+    email: validateEmail,
+    phone: validatePhoneNumber,
+    mobile: validatePhoneNumber,
+    gender: validateGender,
+    address: validateAddress,
+    dob: validateAddress
+}
+
+
 export const studentColumns = (setError) => [
     {field: 'studentId', headerName: 'Student ID', width: 100},
     {
