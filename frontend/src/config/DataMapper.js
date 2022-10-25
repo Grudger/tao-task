@@ -30,23 +30,25 @@ export const validateAge = (age) => {
         .match(/^[0-5][0-9]\Z/i)
 }
 
-export const studentColumns = [
+export const studentColumns = (setError) => [
     {field: 'studentId', headerName: 'Student ID', width: 100},
     {
         field: 'studentName', headerName: 'Student Name', width: 150, editable: true,
         preProcessEditCellProps: (params) => {
             const isValid = validateName(params.props.value) !== null;
-            console.log('cols is valid', isValid)
+            setError(!isValid)
             return {...params.props, error: !isValid};
         }
     },
-    {field: 'gender', headerName: 'Gender', width: 150, editable: true, type: 'singleSelect', valueOptions: ['M', 'F']},
+    {field: 'gender', headerName: 'Gender', width: 150, editable: true,
+        type: 'singleSelect', valueOptions: ['M', 'F']
+    },
     {field: 'address', headerName: 'Address', width: 250, editable: true},
     {
         field: 'email', headerName: 'E-mail Address', width: 200, editable: true,
         preProcessEditCellProps: (params) => {
             const isValid = validateEmail(params.props.value) !== null;
-            console.log('cols is valid', isValid)
+            setError(!isValid)
             return {...params.props, error: !isValid};
         }
     },
@@ -55,7 +57,7 @@ export const studentColumns = [
         field: 'mobile', headerName: 'Mobile Number', width: 150, editable: true,
         preProcessEditCellProps: (params) => {
             const isValid = validatePhoneNumber(params.props.value) !== null;
-            console.log('cols is valid', isValid)
+            setError(!isValid)
             return {...params.props, error: !isValid};
         }
     },
@@ -63,7 +65,7 @@ export const studentColumns = [
         field: 'phone', headerName: 'Phone Number', width: 150, editable: true,
         preProcessEditCellProps: (params) => {
             const isValid = validatePhoneNumber(params.props.value) !== null;
-            console.log('cols is valid', isValid)
+            setError(!isValid)
             return {...params.props, error: !isValid};
         }
     }
